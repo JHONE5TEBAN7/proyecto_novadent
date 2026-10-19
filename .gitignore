@@ -5,6 +5,9 @@ coverage/
 
 .env
 .env.*
+*.db
+*.sqlite
+*.sqlite3
 !.env.example
 
 npm-debug.log*
