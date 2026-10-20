@@ -27,6 +27,9 @@ app.use('/api/auth', rutasAuth);
 const rutasServicios = require('./routes/servicios');
 app.use('/api/servicios', rutasServicios);
 
+const rutasCitas = require('./routes/citas');
+app.use('/api/citas', rutasCitas);
+
 
 // --- INICIO ---
 app.listen(PORT, () => {

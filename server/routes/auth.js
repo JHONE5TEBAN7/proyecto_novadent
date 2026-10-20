@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const db = require('../db'); // Conexión a la base de datos
 
 // POST /api/auth/registro -> Registrar un nuevo paciente
@@ -59,8 +60,6 @@ router.post('/registro', async (req, res) => {
   }
 });
 
-const jwt = require('jsonwebtoken'); // Lo necesitamos para el login
-
 // POST /api/auth/login -> Iniciar sesión
 router.post('/login', async (req, res) => {
   try {
@@ -85,7 +84,7 @@ router.post('/login', async (req, res) => {
 
     // 4. Crear el Token JWT (válido por 2 horas)
     const token = jwt.sign(
-      { id: usuario.id, email: usuario.email, nombre: usuario.nombre }, // Datos que viajan en el token
+      { id: usuario.id, email: usuario.email, nombre: usuario.nombre },
       process.env.JWT_SECRET, // La clave secreta del .env
       { expiresIn: process.env.JWT_EXPIRES_IN || '2h' } // Tiempo de expiración
     );
