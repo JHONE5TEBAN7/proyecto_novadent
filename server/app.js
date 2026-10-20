@@ -24,6 +24,9 @@ const rutasAuth = require('./routes/auth');
 app.use('/api/auth', rutasAuth);
 
 // (Aquí tu compañero agregará su ruta de servicios y citas luego)
+const rutasServicios = require('./routes/servicios');
+app.use('/api/servicios', rutasServicios);
+
 
 // --- INICIO ---
 app.listen(PORT, () => {
