@@ -8,7 +8,10 @@ coverage/
 *.db
 *.sqlite
 *.sqlite3
-!.env.example
+*.db
+*.db-shm
+*.db-wal
+!.env.example  req.usuario = usuario;
 
 npm-debug.log*
 yarn-debug.log*
