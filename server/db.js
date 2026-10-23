@@ -13,7 +13,7 @@ const db = new Database(dbPath);
 // Mejora el rendimiento de la base de datos
 db.pragma('journal_mode = WAL');
 
-console.log(`✅ Conexión a SQLite establecida en: ${dbPath}`);
+console.log(` Conexión a SQLite establecida en: ${dbPath}`);
 
 // 1. Función para crear las tablas
 function crearTablas() {
@@ -49,7 +49,7 @@ function crearTablas() {
       FOREIGN KEY (servicio_id) REFERENCES servicios(id)
     );
   `);
-  console.log('✅ Tablas (usuarios, servicios, citas) creadas/verificadas');
+  console.log(' Tablas (usuarios, servicios, citas) creadas/verificadas');
 }
 
 // 2. Función para insertar los servicios iniciales
@@ -76,9 +76,9 @@ function insertarServicios() {
     });
 
     insertMany(servicios);
-    console.log('✅ 5 servicios iniciales insertados en la BD');
+    console.log(' 5 servicios iniciales insertados en la BD');
   } else {
-    console.log('ℹ️ Los servicios ya existen, no se duplicaron');
+    console.log('ℹ Los servicios ya existen, no se duplicaron');
   }
 }
 
