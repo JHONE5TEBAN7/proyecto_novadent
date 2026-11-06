@@ -11,22 +11,30 @@
     "type": "git",
     "url": "git+https://github.com/JHONE5TEBAN7/proyecto_novadent.git"
   },
-  "keywords": ["dental", "citas", "express", "sqlite"],
+  "keywords": [
+    "dental",
+    "citas",
+    "express",
+    "sqlite"
+  ],
   "author": "Equipo NovaDent",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/JHONE5TEBAN7/proyecto_novadent/issues"
   },
   "homepage": "https://github.com/JHONE5TEBAN7/proyecto_novadent#readme",
   "dependencies": {
+    "@prisma/adapter-pg": "^7.10.1",
+    "@prisma/client": "^7.10.1",
     "bcrypt": "^6.0.0",
-    "better-sqlite3": "^13.0.3",
     "dotenv": "^18.0.8",
     "express": "^5.3.0",
-    "jsonwebtoken": "^9.0.3"
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.23.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "prisma": "^7.10.1"
   }
 }

@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider               = "prisma-client"
+  output                 = "../generated/prisma"
+  moduleFormat           = "esm"
+  generatedFileExtension = "ts"
+  importFileExtension    = "ts"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum RolUsuario {
+  admin
+  doctor
+  recepcionsta
+  cliente
+}
+
+model Usuario {
+  id              Int        @id @default(autoincrement())
+  rol             RolUsuario @default(cliente)
+  nombre          String
+  email           String     @unique
+  passwordHash    String     @map("password_hash")
+  telefono        String?
+  fechaNacimiento String?    @map("fecha_nacimiento")
+  createdAt       DateTime   @default(now()) @map("created_at")
+  citas           Cita[]
+
+  @@map("usuarios")
+}
+
+model Servicio {
+  id          Int     @id @default(autoincrement())
+  nombre      String
+  descripcion String?
+  duracionMin Int?    @map("duracion_min")
+  precio      Float?
+  citas       Cita[]
+
+  @@map("servicios")
+}
+
+model Cita {
+  id         Int      @id @default(autoincrement())
+  usuarioId  Int      @map("usuario_id")
+  servicioId Int      @map("servicio_id")
+  fecha      String
+  hora       String
+  estado     String   @default("pendiente")
+  notas      String?
+  createdAt  DateTime @default(now()) @map("created_at")
+  usuario    Usuario  @relation(fields: [usuarioId], references: [id])
+  servicio   Servicio @relation(fields: [servicioId], references: [id])
+
+  @@map("citas")
+}
