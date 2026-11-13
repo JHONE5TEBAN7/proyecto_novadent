@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-function verificarToken(req, res, next) {
+function verifyToken(req, res, next) {
   const secret = process.env.JWT_SECRET;
 
   if (!secret) {
@@ -21,10 +21,10 @@ function verificarToken(req, res, next) {
     });
   }
 
-  let usuario;
+  let user;
 
   try {
-    usuario = jwt.verify(match[1], secret);
+    user = jwt.verify(match[1], secret);
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
       return res.status(401).json({ ok: false, mensaje: 'El token ha expirado' });
@@ -38,12 +38,12 @@ function verificarToken(req, res, next) {
     return res.status(500).json({ ok: false, mensaje: 'Error interno del servidor' });
   }
 
-  if (typeof usuario !== 'object' || usuario === null || !usuario.id) {
+  if (typeof user !== 'object' || user === null || !user.id) {
     return res.status(401).json({ ok: false, mensaje: 'Token inválido' });
   }
 
-  req.usuario = usuario;
+  req.user = user;
   next();
 }
 
-export default verificarToken;
+export default verifyToken;

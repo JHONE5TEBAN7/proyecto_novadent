@@ -15,49 +15,61 @@ datasource db {
   provider = "postgresql"
 }
 
-enum RolUsuario {
+enum UserRole {
   admin
   doctor
-  recepcionsta
-  cliente
+  receptionist
+  patient
 }
 
-model Usuario {
-  id              Int        @id @default(autoincrement())
-  rol             RolUsuario @default(cliente)
-  nombre          String
-  email           String     @unique
-  passwordHash    String     @map("password_hash")
-  telefono        String?
-  fechaNacimiento String?    @map("fecha_nacimiento")
-  createdAt       DateTime   @default(now()) @map("created_at")
-  citas           Cita[]
+model User {
+  id           Int      @id @default(autoincrement())
+  role         UserRole @default(patient)
+  name         String
+  email        String   @unique
+  passwordHash String?
+  phone        String?
+  birthDate    String?
+  document     String?  @unique
+  createdAt    DateTime @default(now())
+  patientAppointments Appointment[] @relation("PatientAppointments")
 
-  @@map("usuarios")
+  @@map("users")
 }
 
-model Servicio {
-  id          Int     @id @default(autoincrement())
-  nombre      String
-  descripcion String?
-  duracionMin Int?    @map("duracion_min")
-  precio      Float?
-  citas       Cita[]
+model Service {
+  id           Int           @id @default(autoincrement())
+  name         String
+  description  String?
+  durationMin  Int?
+  price        Float?
 
-  @@map("servicios")
+  @@map("services")
 }
 
-model Cita {
-  id         Int      @id @default(autoincrement())
-  usuarioId  Int      @map("usuario_id")
-  servicioId Int      @map("servicio_id")
-  fecha      String
-  hora       String
-  estado     String   @default("pendiente")
-  notas      String?
-  createdAt  DateTime @default(now()) @map("created_at")
-  usuario    Usuario  @relation(fields: [usuarioId], references: [id])
-  servicio   Servicio @relation(fields: [servicioId], references: [id])
+model Appointment {
+  id        Int      @id @default(autoincrement())
+  patientId Int
+  dentistId Int
+  date      DateTime
+  status    String   @default("Pendiente")
+  reason    String
+  createdAt DateTime @default(now())
+  patient   User     @relation("PatientAppointments", fields: [patientId], references: [id])
+  dentist   Dentist  @relation(fields: [dentistId], references: [id])
 
-  @@map("citas")
+  @@map("appointments")
+}
+
+model Dentist {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  specialty String
+  phone     String?
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  appointments Appointment[]
+
+  @@map("dentists")
 }
